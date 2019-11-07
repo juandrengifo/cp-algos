@@ -9,7 +9,7 @@ struct SuffixAutomaton {
   int last;                    // the index of the equivalence class of the whole string
 
 
-  SuffixAutomaton(string s) {
+  SuffixAutomaton(string &s) {
     // add the initial node
     edges.push_back(map<char,int>());
     link.push_back(-1);
@@ -27,7 +27,6 @@ struct SuffixAutomaton {
       int p = last;
       while(p >= 0 && edges[p].find(s[i]) == edges[p].end()) {
         edges[p][s[i]] = r;
-        cout << p << " " << r << endl;
         p = link[p];
       }
       if(p != -1) {
@@ -47,7 +46,6 @@ struct SuffixAutomaton {
           // move short classes pointing to q to point to q'
           while(p >= 0 && edges[p][s[i]] == q) {
             edges[p][s[i]] = qq;
-            cout << p << " " << qq << endl;
             p = link[p];
           }
         }
@@ -57,15 +55,31 @@ struct SuffixAutomaton {
   }
 };
 
-int main(){
-  SuffixAutomaton sa = SuffixAutomaton("Foundations.TheRoleOfAlgorithmsInComputing.GettingStarted.Theorem.SortingAlgorithms.TheHeapsort.Quicksort.");
-  vector<map<char,int>> G = sa.edges;
-  for(int i = 0 ; i < G.size() ; i++){
-    map<char,int>::iterator it = G[i].begin();
-    for(it ; it != G[i].end() ; it++) cout << it->second << " ";
-    cout << endl;
-  }
-  return 0;
+void rev(string &str){ reverse(str.begin(), str.end());}
+
+int match
+
+int solve(vector<string> &strings){
+    int i, n = string.size(), ans, len = strings[0].length();
+    ans = n*len;
+    for(i = 0 ; i < n-1 ; i++){
+        string str = strings[i]; rev(str);
+        SuffixAutomaton sa = SuffixAutomaton(str);
+
+    }
 }
 
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+int main(){
+    int i, len, n, cases;
+    cin >> cases;
+    while(cases--){
+        cin >> len >> n;
+        vector<int> strs;
+        for(i = 0 ; i < n ; i++){
+            string inp;
+            cin >> inp;
+            strs.push_back(inp);
+        }
+    }
+    return 0;
+}

@@ -8,7 +8,9 @@ struct SuffixAutomaton {
   vector<int> endposCard;      // endposCard[i] : Cardinality of the endpos in the ith class
   vector<int> cloned;
   vector<bool> isCloned;
-  int last;                    // the index of the equivalence class of the whole string
+  vector<pair<int,int>> clones;
+
+  int last, n;                    // the index of the equivalence class of the whole string
 
   vector<int> toposort;
 
@@ -51,6 +53,7 @@ struct SuffixAutomaton {
 
       // add edges to r and find p with link to q
       int p = last;
+      clones.push_back({-1,r});
       while(p >= 0 && edges[p].find(s[i]) == edges[p].end()) {
         edges[p][s[i]] = r;
         p = link[p];
@@ -71,6 +74,7 @@ struct SuffixAutomaton {
           link[q] = qq;
           link[r] = qq;
           cloned.push_back(q);
+          clones.append({qq,q});
           // move short classes pointing to q to point to q'
           while(p >= 0 && edges[p][s[i]] == q) {
             edges[p][s[i]] = qq;
@@ -79,6 +83,12 @@ struct SuffixAutomaton {
         }
       }
       last = r;
+    }
+    n = edges.size();
+    vector<int> firstpos(n, 0);
+    for(int i = 0 ; i < clones.size() ; i++){
+      if(clones[i].first == -1) firstpos[clones[i].second] = length[clones[i].second]-1;
+      else firstpos[clones[i].first] = firstpos[clones[i].second];
     }
 /*
     for(int i = 0 ; i < edges.size() ; i++){
@@ -93,6 +103,10 @@ struct SuffixAutomaton {
     for(int i = 0 ; i < cloned.size() ; i++) isCloned[cloned[i]] = true;
   }
 };
+
+int firstpos(SuffixAutomaton &sa, int u){
+  return sa.firstpos[u]-
+}
 
 
 int main(){

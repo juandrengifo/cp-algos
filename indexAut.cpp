@@ -8,7 +8,6 @@ struct SuffixAutomaton {
   vector<int> length;          // length[i] : the length of the longest string in the ith class
   int last;                    // the index of the equivalence class of the whole string
 
-
   SuffixAutomaton(string s) {
     // add the initial node
     edges.push_back(map<char,int>());
@@ -57,13 +56,23 @@ struct SuffixAutomaton {
   }
 };
 
+bool match(SuffixAutomaton sa, string s){
+  vector<map<char,int>> G = sa.edges;
+  int u = 0, i = 0, n = s.length();
+  while (i < n and G[u].find(s[i]) != G[u].end()){
+    u = G[u][s[i]];
+    i++;
+  }
+  return n==i;
+}
+
 int main(){
   SuffixAutomaton sa = SuffixAutomaton("Foundations.TheRoleOfAlgorithmsInComputing.GettingStarted.Theorem.SortingAlgorithms.TheHeapsort.Quicksort.");
   vector<map<char,int>> G = sa.edges;
-  for(int i = 0 ; i < G.size() ; i++){
-    map<char,int>::iterator it = G[i].begin();
-    for(it ; it != G[i].end() ; it++) cout << it->second << " ";
-    cout << endl;
+  while (1){
+    string s;
+    cin >> s;
+    cout << match(sa, s) << endl;
   }
   return 0;
 }
